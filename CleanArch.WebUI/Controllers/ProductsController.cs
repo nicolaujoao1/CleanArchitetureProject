@@ -72,5 +72,12 @@ namespace CleanArch.WebUI.Controllers
             await _productService.Remove(id);
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var productDto = await _productService.GetById(id);
+            if (productDto is null) return NotFound();
+            return View(productDto);
+        }
     }
 }

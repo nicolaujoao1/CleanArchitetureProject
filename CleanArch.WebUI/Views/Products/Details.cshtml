@@ -24,7 +24,17 @@
                 @Html.DisplayNameFor(model=>model.Image)
             </dt>
             <dd class="col-sm-10">
-                <img src=@Model.Image class="rounded-circle" height="250" width="250" asp-append-version=true />
+                @if(Model.Image is null)
+                {
+                    string url = @ViewBag.NoImage;
+                    <img src=@url class="rounded-circle" height="250" width="250" asp-append-version=true />
+                }
+                else
+                {
+                  <img src=@Model.Image class="rounded-circle" height="250" width="250" asp-append-version=true />
+                }
+
+            
             </dd>
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model=>model.Price)

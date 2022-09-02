@@ -75,6 +75,9 @@ namespace CleanArch.WebUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
+            #region Url for defaultImage
+            ViewBag.NoImage = "https://tacm.com/wp-content/uploads/2018/01/no-image-available.jpeg";
+            #endregion
             var productDto = await _productService.GetById(id);
             if (productDto is null) return NotFound();
             return View(productDto);

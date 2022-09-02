@@ -35,12 +35,32 @@ namespace CleanArch.WebUI.Controllers
             if (categoryDto is null) return NotFound();
             return View(categoryDto);
         }
+        [HttpGet()]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var categoryDto=await _categoryService.GetById(id);
+            if (categoryDto is null) return NotFound();
+            return View(categoryDto);
+        }
+        [HttpPost(),ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _categoryService.Remove(id);
+            return RedirectToAction("Index");
+        }
         [HttpPost]
         public async Task<IActionResult> Edit(CategoryDTO categoryDTO)
         {
             if (!ModelState.IsValid) return View(categoryDTO);
             await _categoryService.Update(categoryDTO);
             return RedirectToAction(nameof(Index));
+        }
+        [HttpGet()]
+        public async Task<IActionResult> Details(int id)
+        {
+            var categoryDto=await _categoryService.GetById(id);
+            if (categoryDto is null) return NotFound();
+            return View(categoryDto);
         }
     }
 }

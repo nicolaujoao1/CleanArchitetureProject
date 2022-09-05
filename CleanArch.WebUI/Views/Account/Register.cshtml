@@ -1,0 +1,47 @@
+﻿@model CleanArch.WebUI.ViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Registrar usuário";
+}
+<h2>@ViewData["Title"]</h2>
+  <div class="row">
+        <div class="col-md-10">
+    <form asp-action="Register" asp-controller="Account" method="post" class="form-horizontal">
+            <div class="form-group">
+                <label asp-for="Email" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+            </div>
+            <div style="margin-bottom:5px;"></div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input  type="submit" value="Registrar" class="btn btn-outline-dark" />
+                </div>
+            </div>
+            <p>
+                <a asp-action="Register">Desejas criar um novo usuário?</a>
+            </p>
+    </form>
+   </div>
+</div>
+@section Scripts
+{
+    @{  await Html.RenderPartialAsync("_ValidationScriptsPartial");}    
+}
+    

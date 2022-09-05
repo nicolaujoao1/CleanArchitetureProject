@@ -23,9 +23,9 @@ namespace CleanArch.Infra.Data.Identity
             return result.Succeeded;
         }
 
-        public Task Logout()
+        public async Task Logout()
         {
-            throw new NotImplementedException();
+            await _signInManager.SignOutAsync();
         }
 
         public async Task<bool> RegisterUserAsync(string email, string password)

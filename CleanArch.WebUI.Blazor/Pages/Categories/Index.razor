@@ -1,0 +1,113 @@
+﻿@page "/categories"
+
+@using Blazorise
+@using CleanArch.WebUI.Blazor.Models
+@using CleanArch.WebUI.Blazor.Services
+@inject ICategoryService _categoryService;
+@inject NavigationManager navegadorManager;
+
+
+@*INICIO LISTAR CATEGORIAS*@
+<div class="container">
+    <h3>Categorias</h3>
+</div>
+@if (category==null)
+{
+    <h4>Processando as informações...</h4>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <Button Color="Color.Primary" Clicked="@ShowModal" Style="margin-bottom:10px;">Nova categoria</Button>
+            </div>
+        </div>
+    @if (category.Any())
+    {
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Categoria</th>
+                        <th>Operação</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in category)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>
+                                <a href="/categories/edit/@item.Id" class="btn btn-dark">Editar</a> | <a href="/categories/edit/@item.Id"  class="btn btn-danger">Deletar</a>
+                            </td>
+                        </tr>
+                    }
+                
+                </tbody>
+            </table>      
+    }
+ </div>
+}
+@*FIM LISTAR CATEGORIAS
+*@
+
+
+@*CRIAR CATEGORIA*@
+<Modal @ref="modalAdd">
+    <form>
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Nova categoria</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Categoria</FieldLabel>
+                <TextEdit id="Name"  @bind-text="@categoryDto.Name" Placeholder="Nova categoria..." />
+            </Field>
+            
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Fechar</Button>
+            <Button Color="Color.Primary" @onclick=AddCategory Clicked="@HideModal">Salvar</Button>
+        </ModalFooter>
+    </ModalContent>
+    </form>
+</Modal>
+ 
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+    private IEnumerable<CategoryDto>? category;
+    private Modal modalAdd;
+    CategoryDto categoryDto = new CategoryDto();
+    protected async Task AddCategory()
+    {
+        await _categoryService.Add(categoryDto);
+        await HideModal();
+    }
+    protected async Task UpdateCategory()
+    {
+        await _categoryService.Update(categoryDto, Id);
+    }
+    private Task ShowModal()
+    {
+        return modalAdd.Show();
+    }
+
+    private Task HideModal()
+    {
+        return modalAdd.Hide();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        category =await _categoryService.GetCategories();
+ 
+
+    }
+     
+}

@@ -51,5 +51,7 @@ namespace CleanArch.Application.Services
             var categoryEntity=_mapper.Map<Category>(categoryDto);  
             await _categoryRepository.UpdateAsync(categoryEntity);  
         }
+
+       
     }
 }

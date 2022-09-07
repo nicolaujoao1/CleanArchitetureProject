@@ -1,0 +1,44 @@
+﻿@page "/categories/edit/{id}"
+
+@using Blazorise
+@using CleanArch.WebUI.Blazor.Models
+@using CleanArch.WebUI.Blazor.Services
+@inject ICategoryService _categoryService;
+@inject NavigationManager navegadorManager;
+
+<div class="container">
+    <h3>Deletar Cliente</h3>
+     <form class="row g-3">
+          <div class="col-md-6">
+            <label for="Name" class="form-label">Nome completo</label>
+            <input type="text" readonly class="form-control" @bind="@categoryDto.Name" id="nomeCliente">
+          </div>
+           
+          <div class="col-12">
+               <Button Color="Color.Secondary" @onclick="EditCategory">Editar</Button>
+            
+            <button type="submit" class="btn btn-danger" @onclick=Cancelar>Cancelar</button>
+          </div>
+    </form>
+</div>
+@code 
+{
+    [Parameter]
+    public int Id { get; set; }
+    CategoryDto categoryDto = new CategoryDto();
+    
+    protected async Task EditCategory()
+    {
+        await _categoryService.Update(categoryDto, Id);
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        categoryDto =await _categoryService.GetById(Id);
+    }
+    void Cancelar()
+    {
+        navegadorManager.NavigateTo(nameof(Categories.Index));
+    }
+     
+}

@@ -37,6 +37,21 @@ namespace CleanArchMvc.API.Controllers
             }
 
         }
+        [HttpPost("CreateUser")]
+        [ApiExplorerSettings(IgnoreApi =true)]
+        public async Task<ActionResult> CreateUser([FromBody] LoginDto loginDto)
+        {
+            var createUser = await _authentication.RegisterUserAsync(loginDto.Email, loginDto.Password);
+            if (createUser)
+            {
+                return Ok($"User {loginDto.Email} was successfully");
+            }
+            else
+            {
+                ModelState.AddModelError(String.Empty, "Invalid Login attempt.");
+                return BadRequest(ModelState);
+            }
+        }
 
         private UserToken GenerateToken(LoginDto loginDto)
         {

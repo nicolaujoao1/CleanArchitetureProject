@@ -28,7 +28,7 @@ public class CategoryRepository:ICategoryRepository
 
     public async Task<IEnumerable<Category>> GetCategoriesAsync()
     {
-        return await _categoryContext.Categories.ToListAsync();
+        return await _categoryContext.Categories.AsNoTracking().ToListAsync();
     }
 
     public async Task<Category> RemoveAsync(Category category)

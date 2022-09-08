@@ -35,7 +35,7 @@ namespace CleanArch.Infra.Data.Repositories
 
         public async Task<IEnumerable<Product>> GetProductsAsync()
         {
-           return await _productContext.Products.ToListAsync();
+           return await _productContext.Products.AsNoTracking().ToListAsync();
         }
 
         public async Task<Product> RemoveAsync(Product product)

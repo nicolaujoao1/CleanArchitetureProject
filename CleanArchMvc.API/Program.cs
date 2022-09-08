@@ -1,4 +1,5 @@
 using CleanArch.Infra.IoC;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+//Adicionado
+app.UseStatusCodePages();
+app.UseRouting();
+app.UseAuthentication();
 
 app.UseAuthorization();
 

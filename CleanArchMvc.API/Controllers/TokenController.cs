@@ -21,7 +21,7 @@ namespace CleanArchMvc.API.Controllers
             _authentication = authenticate;
             _configuration = configuration; 
         }
-
+ 
         [AllowAnonymous]
         [HttpPost("LoginUser")]
         public async Task<ActionResult<UserToken>> Login([FromBody] LoginDto loginDto)

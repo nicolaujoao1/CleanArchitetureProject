@@ -38,6 +38,11 @@ namespace CleanArch.Infra.Data.Repositories
            return await _productContext.Products.AsNoTracking().ToListAsync();
         }
 
+        public async Task<IEnumerable<Product>> GetProductsCategoryAsync()
+        {
+            return await _productContext.Products.Include(c => c.Category).AsNoTracking().ToListAsync();
+        }
+
         public async Task<Product> RemoveAsync(Product product)
         {
             _productContext.Remove(product);

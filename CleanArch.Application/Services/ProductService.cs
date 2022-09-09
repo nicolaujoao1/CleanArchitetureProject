@@ -40,6 +40,13 @@ namespace CleanArch.Application.Services
             var productEntity=await _productRepository.GetProductsAsync();
             return _mapper.Map<IEnumerable<ProductDTO>>(productEntity);
         }
+
+        //public async Task<IEnumerable<ProductDTO>> GetProductsCategory()
+        //{
+        //    var productEntity=await _productRepository.GetProductsCategoryAsync();
+        //    return _mapper.Map<IEnumerable<ProductDTO>>(productEntity);
+        //}
+
         public async Task Remove(int id)
         {
             var productEntity =_productRepository.GetByIdAsync(id).Result;

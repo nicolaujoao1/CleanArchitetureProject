@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchMvc.Domain.Tests",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArchMvc.API", "CleanArchMvc.API\CleanArchMvc.API.csproj", "{FD3E44B6-29AF-4618-8822-183F164BCBCA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanArch.WebUI.Blazor", "CleanArch.WebUI.Blazor\CleanArch.WebUI.Blazor.csproj", "{2E8AEC4A-A404-4E34-9D26-07F90DA3D94F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanArch.WebUI.Blazor", "CleanArch.WebUI.Blazor\CleanArch.WebUI.Blazor.csproj", "{2E8AEC4A-A404-4E34-9D26-07F90DA3D94F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -2,7 +2,8 @@ using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
 using CleanArch.WebUI.Blazor.Data;
-using CleanArch.WebUI.Blazor.Services;
+using CleanArch.WebUI.Blazor.Services.Category;
+using CleanArch.WebUI.Blazor.Services.Product;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
@@ -23,6 +24,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddHttpClient<ICategoryService, CategoryService>(
     client => client.BaseAddress = new Uri("https://localhost:7122/")
     );
+builder.Services.AddHttpClient<IProductService, ProductService>(client=>client.BaseAddress= new Uri("https://localhost:7122/"));
 
 var app = builder.Build();
 

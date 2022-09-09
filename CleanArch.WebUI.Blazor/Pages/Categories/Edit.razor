@@ -1,5 +1,48 @@
-﻿<h3>Edit</h3>
+﻿@page "/category/edit/{id}"
+ 
+@using Blazorise
+@using CleanArch.WebUI.Blazor.Models
+@using CleanArch.WebUI.Blazor.Services;
+@using CleanArch.WebUI.Blazor.Services.Category
+@inject ICategoryService _categoryService;
+@inject NavigationManager navegadorManager;
 
+
+<div class="container">
+    <h3>Editar Categoria</h3>
+     <form class="row g-3">
+          <div class="col-md-6">
+            <label for="name" class="form-label">Categoria</label>
+            <input type="text" class="form-control" @bind="@categoryDto.Name" id="nomeCliente">
+          </div>
+          
+          <div class="col-12">
+            @*<button type="submit"  class="btn btn-success" @onclick=UpdateCategory >Actualizar</button>*@
+            <Button Color="Color.Primary" @onclick=UpdateCategory >Actualizar</Button>
+            @*<button type="submit" class="btn btn-danger" @onclick=Cancelar>Cancelar</button>*@
+          </div>
+    </form>
+</div>
 @code {
+    [Parameter]
+    public string? Id { get; set; }
+    [Inject] INotificationService? NotificationService{ get; set; }
 
+    CategoryDto categoryDto = new CategoryDto();
+
+    //Task MessageBoxSucceed()
+    //{
+    //    return NotificationService.Success("Dados gravados com sucesso!","Informação");
+    //}
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        categoryDto =await _categoryService.GetById(Convert.ToInt32(Id));
+    }
+    private async Task UpdateCategory()
+    {
+        await _categoryService.Update(categoryDto, Convert.ToInt32(Id));
+        navegadorManager.NavigateTo("/category");
+    }
+     
 }

@@ -8,7 +8,7 @@ namespace CleanArchMvc.API.Controllers
 {
     [Route("api/categories")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryService _categoryService; 
@@ -34,7 +34,7 @@ namespace CleanArchMvc.API.Controllers
             await _categoryService.Add(categoryDTO);
             return new CreatedAtRouteResult(nameof(GetCategory), new {id=categoryDTO.Id},categoryDTO);
         }
-        [HttpPut]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult> Put(int id,[FromBody]CategoryDTO categoryDTO)
         {
             if (id != categoryDTO.Id) return BadRequest("Category no found");

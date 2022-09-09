@@ -1,5 +1,79 @@
-﻿<h3>Edit</h3>
+﻿@page "/product/edit/{id}"
+ 
 
+
+@using Blazorise
+@using CleanArch.WebUI.Blazor.Models
+@using CleanArch.WebUI.Blazor.Services;
+@using CleanArch.WebUI.Blazor.Services.Category
+@using CleanArch.WebUI.Blazor.Services.Product
+@inject IProductService _productService;
+@inject ICategoryService _categoryService;
+@inject NavigationManager navegadorManager;
+
+
+<div class="container">
+    <h3>Editar Categoria</h3>
+     <form class="row g-3">
+          <div class="col-md-6">
+            <label for="name" class="form-label">Produto</label>
+            <input type="text" class="form-control" @bind="@productDto.Name" id="nomeCliente">
+          </div>
+          <div class="col-md-6">
+            <label for="name" class="form-label">Description</label>
+            <input type="text" class="form-control" @bind="@productDto.Description" id="nomeCliente">
+          </div>
+          <div class="col-md-6">
+            <label for="name" class="form-label">Preço</label>
+            <input type="text" class="form-control" @bind="@productDto.Price" id="nomeCliente">
+          </div>
+          <div class="col-md-6">
+            <label for="name" class="form-label">Stock</label>
+            <input type="text" class="form-control" @bind="@productDto.Stock" id="nomeCliente">
+          </div>
+          <div class="col-md-6">
+            <label for="name" class="form-label">Image Url</label>
+            <input type="text" class="form-control" @bind="@productDto.Image" id="nomeCliente">
+          </div>
+         
+       
+         @*  <div class="col-md-6">
+              <Select TValue="int">
+                <SelectItem Value="1">One</SelectItem>
+                @foreach (var item in categoryDtos)
+                {
+                    <SelectItem>@item.Name</SelectItem>
+                }
+              </Select>
+          </div>*@
+          
+          <div class="col-12">
+            @*<button type="submit"  class="btn btn-success" @onclick=UpdateCategory >Actualizar</button>*@
+            <Button Color="Color.Primary" @onclick=UpdateCategory >Actualizar</Button>
+            @*<button type="submit" class="btn btn-danger" @onclick=Cancelar>Cancelar</button>*@
+          </div>
+    </form>
+</div>
 @code {
-
+    [Parameter]
+    public string? Id { get; set; }
+    [Inject] INotificationService? NotificationService{ get; set; }
+    ProductDto productDto = new ProductDto();
+     private IEnumerable<CategoryDto>? categoryDtos;
+    //Task MessageBoxSucceed()
+    //{
+    //    return NotificationService.Success("Dados gravados com sucesso!","Informação");
+    //}
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        productDto =await _productService.GetById(Convert.ToInt32(Id));
+        categoryDtos =await _categoryService.GetCategories();
+    }
+    private async Task UpdateCategory()
+    {
+        //await _productService.Update(productDto, Convert.ToInt32(Id));
+        navegadorManager.NavigateTo("/product");
+    }
+     
 }

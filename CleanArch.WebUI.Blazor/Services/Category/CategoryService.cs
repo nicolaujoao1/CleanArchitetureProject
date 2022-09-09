@@ -1,6 +1,6 @@
 ﻿using CleanArch.WebUI.Blazor.Models;
 
-namespace CleanArch.WebUI.Blazor.Services
+namespace CleanArch.WebUI.Blazor.Services.Category
 {
     public class CategoryService : ICategoryService
     {
@@ -11,18 +11,18 @@ namespace CleanArch.WebUI.Blazor.Services
         }
         public async Task<CategoryDto> Add(CategoryDto categoryDto)
         {
-            await _httpClient.PostAsJsonAsync<CategoryDto>("api/categories",categoryDto);
+            await _httpClient.PostAsJsonAsync("api/categories", categoryDto);
             return categoryDto;
         }
         public async Task<CategoryDto> GetById(int id) => await _httpClient.GetFromJsonAsync<CategoryDto>($"api/categories/{id}");
 
         public async Task<IEnumerable<CategoryDto>> GetCategories() => await _httpClient.GetFromJsonAsync<CategoryDto[]>("api/categories");
 
-        public async Task Remove(int id)=>await _httpClient.DeleteAsync($"api/categories/{id}");
+        public async Task Remove(int id) => await _httpClient.DeleteAsync($"api/categories/{id}");
 
-        public async Task<CategoryDto> Update(CategoryDto categoryDto,int Id)
+        public async Task<CategoryDto> Update(CategoryDto categoryDto, int Id)
         {
-            await _httpClient.PutAsJsonAsync<CategoryDto>($"api/categories/{Id}", categoryDto);
+            await _httpClient.PutAsJsonAsync($"api/categories/{Id}", categoryDto);
             return categoryDto;
         }
     }

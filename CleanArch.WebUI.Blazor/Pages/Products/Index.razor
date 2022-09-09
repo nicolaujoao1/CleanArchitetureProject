@@ -1,5 +1,117 @@
-﻿<h3>Index</h3>
+﻿@page "/product"
+
+
+@using Blazorise;
+@using CleanArch.WebUI.Blazor.Models;
+@using CleanArch.WebUI.Blazor.Services;
+@using CleanArch.WebUI.Blazor.Services.Product;
+@inject IProductService _productService;
+@inject NavigationManager navegadorManager;
+
+
+@*INICIO LISTAR CATEGORIAS*@
+<div class="container">
+    <h3>Produtos</h3>
+</div>
+@if (product==null)
+{
+    <h4>Processando as informações...</h4>
+}
+else
+{
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <Button  Color="Color.Primary" Clicked="@ShowModal"  Style="margin-bottom:10px;">Novo Produto</Button>
+            </div>
+        </div>
+    @if (product.Any())
+    {
+            <table class="table table-striped">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Produto</th>
+                        <th>Descrição</th>
+                        <th>Preço</th>
+                        <th>Acção</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in product)
+                    {
+                        <tr>
+                            <td>@item.Id</td>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td>@item.Price</td>
+                            
+                            <td>
+                                <a href="/product/edit/@item.Id" class="btn btn-dark">Editar</a> | <a href="/product/delete/@item.Id"  class="btn btn-danger">Deletar</a>
+                            </td>
+                        </tr>
+                    }
+                
+                </tbody>
+            </table>      
+    }
+ </div>
+}
+@*FIM LISTAR CATEGORIAS
+*@
+
+
+@*CRIAR CATEGORIA*@
+@*<Modal @ref="modalAdd">
+    <form>
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Nova categoria</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Categoria</FieldLabel>
+                <TextEdit id="Name"  @bind-text="@categoryDto.Name" Placeholder="Nova categoria..." />
+            </Field>
+            
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Fechar</Button>
+            <Button Color="Color.Primary" @onclick=AddCategory Clicked="@HideModal">Salvar</Button>
+        </ModalFooter>
+    </ModalContent>
+    </form>
+</Modal>*@
+ 
 
 @code {
+    [Parameter]
+    public int Id { get; set; }
+    private IEnumerable<ProductDto>? product;
+    private Modal modalAdd;
+    ProductDto productDto = new ProductDto();
+    protected async Task AddCategory()
+    {
+        await _productService.Add(productDto);
+        await HideModal();
+        navegadorManager.NavigateTo("/product");
+    }
 
+    private Task ShowModal()
+    {
+        return modalAdd.Show();
+    }
+
+    private Task HideModal()
+    {
+        return modalAdd.Hide();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        product = await _productService.GetProducts();
+    }
+     
 }

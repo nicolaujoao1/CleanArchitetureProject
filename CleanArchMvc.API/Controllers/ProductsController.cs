@@ -8,7 +8,7 @@ namespace CleanArchMvc.API.Controllers
 {
     [Route("api/product")]
     [ApiController]
-    [Authorize]
+    //[Authorize]
     public class ProductsController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -24,6 +24,7 @@ namespace CleanArchMvc.API.Controllers
                 return NotFound("There´s no product");  
             return Ok(products);
         }
+       
         [HttpGet("{id:int}")]
         public async Task<ActionResult<ProductDTO>> GetProduct(int id)
         {

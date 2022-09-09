@@ -1,8 +1,9 @@
-﻿@page "/categories"
+﻿@page "/category"
 
 @using Blazorise
 @using CleanArch.WebUI.Blazor.Models
-@using CleanArch.WebUI.Blazor.Services
+@using CleanArch.WebUI.Blazor.Services;
+@using CleanArch.WebUI.Blazor.Services.Category
 @inject ICategoryService _categoryService;
 @inject NavigationManager navegadorManager;
 
@@ -20,7 +21,7 @@ else
     <div class="container">
         <div class="row">
             <div class="col">
-                <Button Color="Color.Primary" Clicked="@ShowModal" Style="margin-bottom:10px;">Nova categoria</Button>
+                <Button  Color="Color.Primary" Clicked="@ShowModal"  Style="margin-bottom:10px;">Nova categoria</Button>
             </div>
         </div>
     @if (category.Any())
@@ -40,7 +41,7 @@ else
                             <td>@item.Id</td>
                             <td>@item.Name</td>
                             <td>
-                                <a href="/categories/edit/@item.Id" class="btn btn-dark">Editar</a> | <a href="/categories/edit/@item.Id"  class="btn btn-danger">Deletar</a>
+                                <a href="/category/edit/@item.Id" class="btn btn-dark">Editar</a> | <a href="/category/delete/@item.Id"  class="btn btn-danger">Deletar</a>
                             </td>
                         </tr>
                     }
@@ -88,11 +89,9 @@ else
     {
         await _categoryService.Add(categoryDto);
         await HideModal();
+        navegadorManager.NavigateTo("/category");
     }
-    protected async Task UpdateCategory()
-    {
-        await _categoryService.Update(categoryDto, Id);
-    }
+   
     private Task ShowModal()
     {
         return modalAdd.Show();

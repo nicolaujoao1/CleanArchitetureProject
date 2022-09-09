@@ -1,44 +1,46 @@
-﻿@page "/categories/edit/{id}"
-
+﻿@page "/category/delete/{id}"
+ 
 @using Blazorise
 @using CleanArch.WebUI.Blazor.Models
-@using CleanArch.WebUI.Blazor.Services
+@using CleanArch.WebUI.Blazor.Services;
+@using CleanArch.WebUI.Blazor.Services.Category
 @inject ICategoryService _categoryService;
 @inject NavigationManager navegadorManager;
+
 
 <div class="container">
     <h3>Deletar Cliente</h3>
      <form class="row g-3">
           <div class="col-md-6">
-            <label for="Name" class="form-label">Nome completo</label>
+            <label for="name" class="form-label">Categoria</label>
             <input type="text" readonly class="form-control" @bind="@categoryDto.Name" id="nomeCliente">
           </div>
            
           <div class="col-12">
-               <Button Color="Color.Secondary" @onclick="EditCategory">Editar</Button>
-            
+              <Button Color="Color.Primary" @onclick=DeleteCategory>Deletar</Button>
+           
             <button type="submit" class="btn btn-danger" @onclick=Cancelar>Cancelar</button>
           </div>
     </form>
 </div>
-@code 
-{
+
+@code {
     [Parameter]
-    public int Id { get; set; }
+    public string? Id { get; set; }
     CategoryDto categoryDto = new CategoryDto();
-    
-    protected async Task EditCategory()
-    {
-        await _categoryService.Update(categoryDto, Id);
-    }
     protected override async Task OnInitializedAsync()
     {
-        await base.OnInitializedAsync();
-        categoryDto =await _categoryService.GetById(Id);
+        categoryDto = await _categoryService.GetById(Convert.ToInt32(Id));
+    }
+    private async Task DeleteCategory()
+    {
+        await _categoryService.Remove(Convert.ToInt32(Id));
+        navegadorManager.NavigateTo("/category");
     }
     void Cancelar()
     {
-        navegadorManager.NavigateTo(nameof(Categories.Index));
+        navegadorManager.NavigateTo("/category");
     }
-     
+   
+
 }
